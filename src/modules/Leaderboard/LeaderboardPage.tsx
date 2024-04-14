@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { twMerge } from 'tailwind-merge';
 
 export const LeaderboardPage = () => {
   const navigate = useNavigate();
@@ -13,7 +14,10 @@ export const LeaderboardPage = () => {
       <button
         type="button"
         onClick={onSubmit}
-        className="bg-black text-center font-semibold py-1 px-3 w-full rounded-md text-white shadow-sm hover:bg-red-900 border-gray-300 border uppercase"
+        className={twMerge(
+          'bg-black text-center font-semibold py-1 px-3 w-full rounded-md text-white shadow-sm',
+          'hover:bg-red-900 border-gray-300 border uppercase',
+        )}
       >
         Restart
       </button>

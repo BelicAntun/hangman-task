@@ -1,18 +1,27 @@
 import { Input } from 'components/Input';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { twMerge } from 'tailwind-merge';
+import { useDispatch } from 'react-redux';
+import { add } from 'store/userSlice';
 
 export const LoginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { control, handleSubmit } = useForm<{ username: string }>({
     defaultValues: { username: '' },
   });
 
+  const setUsername = (username: string) => {
+    dispatch(add(username));
+  };
+
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
+    setUsername(data.username);
     navigate('/game');
   });
+
   return (
     <div className="flex flex-col flex-1 w-full h-screen overflow-auto items-center">
       <div className="relative h-40 mt-20">
@@ -32,7 +41,10 @@ export const LoginPage = () => {
           <button
             type="button"
             onClick={onSubmit}
-            className="bg-black text-center font-semibold py-1 px-3 w-full rounded-md text-white shadow-sm hover:bg-red-900 border-gray-300 border uppercase"
+            className={twMerge(
+              'bg-black text-center font-semibold py-1 px-3 w-full rounded-md text-white shadow-sm',
+              'hover:bg-red-900 border-gray-300 border uppercase',
+            )}
           >
             Start
           </button>

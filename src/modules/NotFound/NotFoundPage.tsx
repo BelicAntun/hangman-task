@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { twMerge } from 'tailwind-merge';
 
 export const NotFoundPage = () => {
   const navigate = useNavigate();
@@ -9,7 +10,10 @@ export const NotFoundPage = () => {
       <button
         type="button"
         onClick={() => navigate('/')}
-        className="bg-black text-center font-semibold py-1 px-3 w-full rounded-md text-white shadow-sm hover:bg-red-900 border-gray-300 border uppercase"
+        className={twMerge(
+          'bg-black text-center font-semibold py-1 px-3 w-full rounded-md text-white shadow-sm',
+          'hover:bg-red-900 border-gray-300 border uppercase',
+        )}
       >
         Go to Home
       </button>
