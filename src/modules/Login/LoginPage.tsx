@@ -23,8 +23,8 @@ export const LoginPage = () => {
   });
 
   return (
-    <div className="flex flex-col flex-1 w-full h-screen overflow-auto items-center">
-      <div className="relative h-40 mt-20">
+    <div className="flex flex-col flex-1 w-full h-screen overflow-auto justify-around items-center">
+      <div className="relative h-40">
         <h1 className="text-5xl font-bold text-center uppercase">hangman</h1>
         <div className="w-[7px] h-12 bg-black absolute right-1 top-10">
           <div className="rounded-full border-2 h-12 w-12 border-black -bottom-12 -right-5 absolute">
@@ -33,9 +33,9 @@ export const LoginPage = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col flex-1 items-center justify-end mb-40 gap-6">
+      <div className="flex flex-col items-center justify-end mb-40 gap-6">
         <h1 className="text-2xl font-semibold text-center">Enter your username to start the game</h1>
-        <form className="flex gap-4">
+        <form className="flex gap-4" onSubmit={onSubmit}>
           <Input name="username" control={control} placeholder="Username" />
 
           <button

@@ -1,13 +1,14 @@
 import { ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
+import { UserState } from 'store/userSlice';
 
 type PrivateLayoutProps = {
   children?: ReactNode;
 };
 
 export const PrivateLayout = ({ children = <Outlet /> }: PrivateLayoutProps) => {
-  const { username } = useSelector((state: { user: { username: string } }) => state.user);
+  const { username } = useSelector((state: UserState) => state.user);
 
   if (!username) {
     window.location.replace('/');

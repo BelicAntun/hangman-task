@@ -1,10 +1,29 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { StatusType } from 'utils/types';
 import { Quote, fetchRandomQuote } from '../services/quotes';
 
-const initialState = {
-  data: {} as Quote,
-  status: 'idle',
+interface Quotes {
+  data: Quote;
+  status: StatusType;
+}
+
+export interface QuoteState {
+  quotes: Quotes;
+}
+
+const initialState: Quotes = {
+  data: {
+    id: '',
+    content: '',
+    author: '',
+    tags: [],
+    authorSlug: '',
+    length: 0,
+    dateAdded: null,
+    dateModified: null,
+  },
+  status: StatusType.IDLE,
 };
 
 export const getQuote = createAsyncThunk('quotes/get', async () => {
@@ -19,14 +38,14 @@ const quoteSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getQuote.pending, (state) => {
-        state.status = 'loading';
+        state.status = StatusType.LOADING;
       })
       .addCase(getQuote.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = StatusType.SUCCESS;
         state.data = action.payload;
       })
       .addCase(getQuote.rejected, (state) => {
-        state.status = 'failed';
+        state.status = StatusType.ERROR;
       });
   },
 });
