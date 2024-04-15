@@ -17,7 +17,7 @@ export const GamePage = () => {
   const dispatchGame = useDispatch();
   const { data: qoutes, status } = useSelector((state: QuoteState) => state.quotes);
   const { username } = useSelector((state: UserState) => state.user);
-  const { mistakes, guesedLetters, uniqueLetters } = useSelector((state: GameState) => state.game);
+  const { mistakes, guesedLetters, uniqueLetters, createdAt } = useSelector((state: GameState) => state.game);
 
   const onSubmit = () => {
     dispatchGame(reset());
@@ -75,6 +75,23 @@ export const GamePage = () => {
     dispatchGame(removeFromUniqueLetters(letter));
   };
 
+  const calculateDuration = (start: number) => {
+    return start ? Date.now() - start : 0;
+  };
+
+  const handleGameEnd = () => {
+    if (mistakes >= 6 || (uniqueLetters.length === 0 && guesedLetters.length > 0)) {
+      console.log('Game ended', {
+        quoteId: qoutes.id,
+        length: qoutes.content.length,
+        uniqueCharacters: uniqueLetters.length,
+        userName: username,
+        errors: mistakes,
+        duration: calculateDuration(createdAt),
+      });
+    }
+  };
+
   useEffect(() => {
     dispatch(getQuote());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -88,15 +105,9 @@ export const GamePage = () => {
   }, [status]);
 
   useEffect(() => {
-    if (status !== StatusType.SUCCESS) return;
-    if (mistakes >= 6) {
-      navigate('/game/result');
-    }
-    if (uniqueLetters.length === 0) {
-      navigate('/game/result');
-    }
+    handleGameEnd();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mistakes, uniqueLetters.length]);
+  }, [mistakes, uniqueLetters]);
 
   return (
     <div className="flex flex-col justify-around flex-1 w-full h-screen overflow-auto items-center max-w-[1536px] mx-auto p-3">

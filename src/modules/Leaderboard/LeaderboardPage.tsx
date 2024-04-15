@@ -1,12 +1,30 @@
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { GameResults, fetchGameResults } from 'services/results';
+import { reset } from 'store/gameSlice';
 import { twMerge } from 'tailwind-merge';
 
 export const LeaderboardPage = () => {
   const navigate = useNavigate();
+  const dispatchGame = useDispatch();
+  const [results, setResults] = useState<GameResults[] | null>(null);
 
   const onSubmit = () => {
-    navigate('/');
+    dispatchGame(reset());
+    navigate('/game');
   };
+
+  const getResult = async () => {
+    const res = await fetchGameResults();
+    setResults(res);
+  };
+
+  console.log(results);
+
+  useEffect(() => {
+    getResult();
+  }, []);
 
   return (
     <div className="flex flex-col flex-1 w-full h-screen overflow-auto items-center">
