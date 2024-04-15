@@ -1,5 +1,5 @@
 import { apiResults } from 'services/api';
-import { GameResults } from './types';
+import { GameResults, GameResultsResonse } from './types';
 import { resToGameResults } from './transformations';
 
 export const postGameResults = async (data: GameResults): Promise<GameResults> => {
@@ -7,7 +7,7 @@ export const postGameResults = async (data: GameResults): Promise<GameResults> =
   return resToGameResults(resp.data);
 };
 
-export const fetchGameResults = async (): Promise<GameResults[]> => {
+export const fetchGameResults = async (): Promise<GameResultsResonse[]> => {
   const resp = await apiResults.get('/highscores');
   return resp.data.map(resToGameResults);
 };

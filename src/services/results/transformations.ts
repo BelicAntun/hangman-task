@@ -1,7 +1,8 @@
-import { GameResults } from './types';
+import { GameResultsResonse } from './types';
 
-export const resToGameResults = (res: any): GameResults => {
+export const resToGameResults = (res: any): GameResultsResonse => {
   return {
+    id: res.id ?? '',
     quoteId: res.quoteId ?? '',
     length: res.length ?? 0,
     uniqueCharacters: res.uniqueCharacters ?? 0,

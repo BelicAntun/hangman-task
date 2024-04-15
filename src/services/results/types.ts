@@ -6,3 +6,11 @@ export interface GameResults {
   errors: number;
   duration: number;
 }
+
+export interface GameResultsResonse extends GameResults {
+  id: string;
+}
+
+export interface GameResultsWithScore extends GameResultsResonse {
+  score: number;
+}

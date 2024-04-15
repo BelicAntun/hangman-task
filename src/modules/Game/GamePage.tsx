@@ -10,6 +10,7 @@ import clsx from 'clsx';
 import { UserState } from 'store/userSlice';
 import { GameState, addError, addGuess, settingGame, removeFromUniqueLetters, reset } from 'store/gameSlice';
 import { StatusType } from 'utils/types';
+import { postGameResults } from 'services/results';
 
 export const GamePage = () => {
   const navigate = useNavigate();
@@ -79,9 +80,9 @@ export const GamePage = () => {
     return start ? Date.now() - start : 0;
   };
 
-  const handleGameEnd = () => {
+  const handleGameEnd = async () => {
     if (mistakes >= 6 || (uniqueLetters.length === 0 && guesedLetters.length > 0)) {
-      console.log('Game ended', {
+      const resp = await postGameResults({
         quoteId: qoutes.id,
         length: qoutes.content.length,
         uniqueCharacters: uniqueLetters.length,
@@ -89,6 +90,8 @@ export const GamePage = () => {
         errors: mistakes,
         duration: calculateDuration(createdAt),
       });
+      console.log(resp);
+      navigate('/game/result');
     }
   };
 
