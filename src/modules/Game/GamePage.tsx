@@ -11,6 +11,7 @@ import { UserState } from 'store/userSlice';
 import { GameState, addError, addGuess, settingGame, removeFromUniqueLetters, reset } from 'store/gameSlice';
 import { StatusType } from 'utils/types';
 import { postGameResults } from 'services/results';
+import { addResult } from 'store/resultsSlice';
 
 export const GamePage = () => {
   const navigate = useNavigate();
@@ -90,7 +91,7 @@ export const GamePage = () => {
         errors: mistakes,
         duration: calculateDuration(createdAt),
       });
-      console.log(resp);
+      dispatchGame(addResult(resp));
       navigate('/game/result');
     }
   };
@@ -113,7 +114,12 @@ export const GamePage = () => {
   }, [mistakes, uniqueLetters]);
 
   return (
-    <div className="flex flex-col justify-around flex-1 w-full h-screen overflow-auto items-center max-w-[1536px] mx-auto p-3">
+    <div
+      className={twMerge(
+        'flex flex-col justify-around flex-1 w-full h-screen overflow-auto items-center',
+        'max-w-[1536px] mx-auto px-4 py-6 sm:p-10',
+      )}
+    >
       <div className="flex justify-between w-full">
         <p className="uppercase font-semibold text-xl text-left">{`${username}`}</p>
 
