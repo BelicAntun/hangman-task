@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface Game {
-  guesedLetters: string[];
+  guessedLetters: string[];
   uniqueLetters: string[];
   numberOfUniqueLetters: number;
   lengthOfQuote: number;
@@ -16,7 +16,7 @@ export interface GameState {
 }
 
 const initialState: Game = {
-  guesedLetters: [],
+  guessedLetters: [],
   uniqueLetters: [],
   numberOfUniqueLetters: 0,
   lengthOfQuote: 0,
@@ -30,7 +30,7 @@ const gameSlice = createSlice({
   initialState,
   reducers: {
     addGuess: (state, action) => {
-      state.guesedLetters.push(action.payload);
+      state.guessedLetters.push(action.payload);
     },
     addError: (state) => {
       state.mistakes += 1;

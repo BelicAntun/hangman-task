@@ -1,6 +1,6 @@
-import { GameResultsResonse } from './types';
+import { GameResultsResponse } from './types';
 
-export const resToGameResults = (res: any): GameResultsResonse => {
+export const resToGameResults = (res: any): GameResultsResponse => {
   return {
     id: res.id ?? '',
     quoteId: res.quoteId ?? '',

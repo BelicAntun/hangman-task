@@ -7,10 +7,10 @@ export interface GameResults {
   duration: number;
 }
 
-export interface GameResultsResonse extends GameResults {
+export interface GameResultsResponse extends GameResults {
   id: string;
 }
 
-export interface GameResultsWithScore extends GameResultsResonse {
+export interface GameResultsWithScore extends GameResultsResponse {
   score: number;
 }

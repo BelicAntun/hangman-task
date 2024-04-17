@@ -1,12 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit';
-import { GameResultsResonse, fetchGameResults } from 'services/results';
+import { GameResults, GameResultsResponse, fetchGameResults, postGameResults } from 'services/results';
 import { StatusType } from 'utils/types';
 
 interface Result {
-  data: GameResultsResonse[];
-  userData: GameResultsResonse[];
+  data: GameResultsResponse[];
+  userData: GameResultsResponse[];
   status: StatusType;
+  postStatus: StatusType;
 }
 
 export interface ResultState {
@@ -17,11 +18,17 @@ const initialState: Result = {
   data: [],
   userData: [],
   status: StatusType.IDLE,
+  postStatus: StatusType.IDLE,
 };
 
 export const getResult = createAsyncThunk('results/get', async () => {
   const data = await fetchGameResults();
   return data;
+});
+
+export const addGameResults = createAsyncThunk('results/post', async (data: GameResults) => {
+  const response = await postGameResults(data);
+  return response;
 });
 
 const resultSlice = createSlice({
@@ -30,9 +37,6 @@ const resultSlice = createSlice({
   reducers: {
     resetResults: (state) => {
       state.data = [];
-    },
-    addResult: (state, action) => {
-      state.userData.push({ ...action.payload, id: nanoid() });
     },
   },
   extraReducers: (builder) => {
@@ -46,10 +50,20 @@ const resultSlice = createSlice({
       })
       .addCase(getResult.rejected, (state) => {
         state.status = StatusType.ERROR;
+      })
+      .addCase(addGameResults.pending, (state) => {
+        state.postStatus = StatusType.LOADING;
+      })
+      .addCase(addGameResults.fulfilled, (state, action) => {
+        state.postStatus = StatusType.SUCCESS;
+        state.userData.push({ ...action.payload, id: nanoid() });
+      })
+      .addCase(addGameResults.rejected, (state) => {
+        state.postStatus = StatusType.ERROR;
       });
   },
 });
 
-export const { resetResults, addResult } = resultSlice.actions;
+export const { resetResults } = resultSlice.actions;
 
 export default resultSlice.reducer;
